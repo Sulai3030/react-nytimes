@@ -7,6 +7,8 @@ import { Col, Row, Container } from "../../components/Grid";
 import { List, ListItem } from "../../components/List";
 import { Input, TextArea, FormBtn } from "../../components/Form";
 
+import openSocket from 'socket.io-client'
+
 class Books extends Component {
   state = {
     books: [],
@@ -17,6 +19,7 @@ class Books extends Component {
 
   componentDidMount() {
     this.loadBooks();
+    this.socket = openSocket('http://localhost:3001')
   }
 
   loadBooks = () => {

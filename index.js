@@ -2,9 +2,25 @@ const express = require("express");
 const path = require("path");
 const PORT = process.env.PORT || 3001;
 const app = express();
+const server = require('http').createServer(app)
+const io =  require('socket.io')(server)
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const routes = require('./routes');
+
+io.origins((origin, callback)=>{
+  if(origin !== 'http://localhost:3000'){
+    console.log("callbacks false")
+    return callback('origin not allowed', false) 
+  }
+  console.log("callbacks true")
+  callback(null, true)
+})
+io.on('connection', (socket) => {
+  console.log('connected to client')
+})
+    
+
 // Define middleware here
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
